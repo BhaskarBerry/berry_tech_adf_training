@@ -1,0 +1,36 @@
+{
+	"name": "25PL_Script_Demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Script Demo",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSQL",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "Alter table [dbo].[TBL_Employee]\nAdd Email Varchar(20);\n"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-11-15T15:47:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

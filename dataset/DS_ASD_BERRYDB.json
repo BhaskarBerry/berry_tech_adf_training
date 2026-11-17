@@ -1,0 +1,22 @@
+{
+	"name": "DS_ASD_BERRYDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DS_Orders_ASDB",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Orders"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

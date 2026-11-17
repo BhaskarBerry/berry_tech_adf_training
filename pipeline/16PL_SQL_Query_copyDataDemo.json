@@ -1,0 +1,59 @@
+{
+	"name": "16PL_SQL_Query_copyDataDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data from SQL query",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT\n    E.EmployeeID,\n    E.EmployeeName,\n    E.Gender,\n    E.Salary,\n    D.DepartmentID,\n    D.DepartmentName,\n    D.Location\nFROM dbo.TBL_Employee E\nINNER JOIN dbo.TBL_Department D\n    ON E.DepartmentID = D.DepartmentID;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false,
+						"tableOption": "autoCreate",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_SQLDB",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_SQLDB_OP",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-11-15T05:11:44Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

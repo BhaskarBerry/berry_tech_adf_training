@@ -1,0 +1,29 @@
+{
+	"name": "27PL_ExecutePipelineDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Master Pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "28PL_ParameterDemo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"x": 20
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-11-16T12:19:05Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

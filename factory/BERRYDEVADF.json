@@ -1,0 +1,15 @@
+{
+	"name": "BERRYDEVADF",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c8111d75-d8c0-48d7-aff4-43cacea5ced9",
+		"tenantId": "a05628bd-baf2-4efe-97d1-23657b47a569"
+	}
+}

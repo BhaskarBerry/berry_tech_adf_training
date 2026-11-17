@@ -1,0 +1,76 @@
+{
+	"name": "08PL_SetVariableActivityDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "County Var",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "x",
+					"value": "US"
+				}
+			},
+			{
+				"name": "Int Value",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "County Var",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "y",
+					"value": 500
+				}
+			},
+			{
+				"name": "Country New",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Int Value",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "x",
+					"value": "Japan"
+				}
+			}
+		],
+		"variables": {
+			"x": {
+				"type": "String",
+				"defaultValue": "India"
+			},
+			"y": {
+				"type": "Integer",
+				"defaultValue": 0
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-14T03:38:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

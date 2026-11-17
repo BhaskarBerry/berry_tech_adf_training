@@ -1,0 +1,17 @@
+{
+	"name": "DS_ASDB_DailySales",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_AzureSQL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "tbl_Daily_sales"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

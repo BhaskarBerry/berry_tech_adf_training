@@ -1,0 +1,30 @@
+{
+	"name": "20PL_StoredProcedureActivityDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Stored procedure demo",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[USP_TruncateAndLoadEmpDept]"
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSQL",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-11-15T10:18:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

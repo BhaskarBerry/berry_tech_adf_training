@@ -1,0 +1,41 @@
+{
+	"name": "22PL_FilterActivityDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Filter DEmo",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('Numbers')",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@greater(item(), 4)",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"Numbers": {
+				"type": "Array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7,
+					8
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-15T12:46:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

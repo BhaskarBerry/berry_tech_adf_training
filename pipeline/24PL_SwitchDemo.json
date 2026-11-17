@@ -1,0 +1,87 @@
+{
+	"name": "24PL_SwitchDemo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch Demo",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@string(variables('x'))",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "1000",
+							"activities": [
+								{
+									"name": "Set variable1K",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "result",
+										"value": "1 K"
+									}
+								}
+							]
+						},
+						{
+							"value": "2000",
+							"activities": [
+								{
+									"name": "Set variable2k",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "result",
+										"value": "2 K"
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Set variable Default",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "result",
+								"value": "Default"
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"x": {
+				"type": "Integer",
+				"defaultValue": 2000
+			},
+			"result": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-15T14:14:11Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
