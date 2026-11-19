@@ -13,6 +13,75 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/16PL_SQL_Query_copyDataDemo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data from SQL query",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT\n    E.EmployeeID,\n    E.EmployeeName,\n    E.Gender,\n    E.Salary,\n    D.DepartmentID,\n    D.DepartmentName,\n    D.Location\nFROM dbo.TBL_Employee E\nINNER JOIN dbo.TBL_Department D\n    ON E.DepartmentID = D.DepartmentID;",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SQLDB",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_SQLDB_OP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-11-15T05:11:44Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/17PL_ColumnMappingDemo')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1493,7 +1562,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo')]",
+			"name": "[concat(parameters('factoryName'), '/02_DF_FilterDemo')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1539,6 +1608,131 @@
 						"     ignoreNoFilesFound: false) ~> ReadCSV",
 						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
 						"filterBAsedonCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/03_DF_SortDemo')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DB",
+								"type": "DatasetReference"
+							},
+							"name": "sinkDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filterBAsedonCountry"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+						"filterBAsedonCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/04_DF_DerivedDemo')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DERVIED",
+								"type": "DatasetReference"
+							},
+							"name": "sinkDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumnDemo"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV derive(Month = month(OrderDate),",
+						"          Year = year(OrderDate),",
+						"          Day = dayOfMonth(OrderDate),",
+						"          Tax = SalesAmount * 0.5) ~> derivedColumnDemo",
+						"derivedColumnDemo sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -1610,67 +1804,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo_copy1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DS_CSV_Input",
-								"type": "DatasetReference"
-							},
-							"name": "ReadCSV"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DS_DT_DB",
-								"type": "DatasetReference"
-							},
-							"name": "sinkDB"
-						}
-					],
-					"transformations": [
-						{
-							"name": "filterBAsedonCountry"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          OrderDate as date,",
-						"          ProductKey as short,",
-						"          Country as string,",
-						"          EnglishProductName as string,",
-						"          SalesAmount as double,",
-						"          UnitPrice as double,",
-						"          OrderQuantity as boolean,",
-						"          TaxAmt as double,",
-						"          TotalProductCost as double",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> ReadCSV",
-						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
-						"filterBAsedonCountry sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'table',",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/00PL_DT_SelectDemo')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1717,98 +1850,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/01_DF_SelectDemo')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/01DPL_Intro')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DataFlowIntro",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowIntro",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CSVOrders": {},
-									"OrdersDB": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowIntro')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/02DPL_Demo_Sort_Transformation')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "DataFlowSort",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "02_DF_SortDemo",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"ReadCSV": {},
-									"sinkDB": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/02_DF_SortDemo')]"
 			]
 		}
 	]
