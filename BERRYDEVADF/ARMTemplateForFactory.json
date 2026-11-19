@@ -97,6 +97,55 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/00PL_DT_SelectDemo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SelectCSVLoadTODB",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "01_DF_SelectDemo",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ReadCSV": {},
+									"SinDB": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "DataFlow"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/01_DF_SelectDemo')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/01DPL_Intro')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -3672,6 +3721,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_DT_SELECT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tblOrders_Demo"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureSQL')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_Daily_Sales')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4477,6 +4547,79 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/01_DF_SelectDemo')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_SELECT",
+								"type": "DatasetReference"
+							},
+							"name": "SinDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "selectColumns"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV select(mapColumn(",
+						"          OrderDate,",
+						"          ProductID = ProductKey,",
+						"          Country,",
+						"          EnglishProductName,",
+						"          SalesAmount,",
+						"          TotalProductCost",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectColumns",
+						"selectColumns sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> SinDB"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
+				"[concat(variables('factoryId'), '/datasets/DS_DT_SELECT')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflowIntro')]",
