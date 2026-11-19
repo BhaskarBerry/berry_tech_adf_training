@@ -18,12 +18,12 @@
 						"referenceName": "DS_DT_DB",
 						"type": "DatasetReference"
 					},
-					"name": "LoadDB"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "sortbasedONCountry"
+					"name": "filterBAsedonCountry"
 				}
 			],
 			"scriptLines": [
@@ -41,10 +41,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> ReadCSV",
-				"ReadCSV sort(asc(Country, true),",
-				"     desc(SalesAmount, true),",
-				"     partitionBy('hash', 1)) ~> sortbasedONCountry",
-				"sortbasedONCountry sink(allowSchemaDrift: true,",
+				"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+				"filterBAsedonCountry sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -53,7 +51,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> LoadDB"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}

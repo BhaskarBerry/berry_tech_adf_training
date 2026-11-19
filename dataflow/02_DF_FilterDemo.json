@@ -1,0 +1,35 @@
+{
+	"name": "02_DF_FilterDemo",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_CSV_Input",
+						"type": "DatasetReference"
+					},
+					"name": "ReadCSV"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          OrderDate as date,",
+				"          ProductKey as short,",
+				"          Country as string,",
+				"          EnglishProductName as string,",
+				"          SalesAmount as double,",
+				"          UnitPrice as double,",
+				"          OrderQuantity as boolean,",
+				"          TaxAmt as double,",
+				"          TotalProductCost as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> ReadCSV"
+			]
+		}
+	}
+}

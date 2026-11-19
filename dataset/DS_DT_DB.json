@@ -13,7 +13,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "tbl_Sort_Orders"
+			"table": "tbl_FilterDemo"
 		}
 	}
 }
