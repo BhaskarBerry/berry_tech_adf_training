@@ -266,12 +266,61 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T16:49:49Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_Output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02DPL_Demo_Sort_Transformation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DataFlowSort",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "02_DF_SortDemo",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ReadCSV": {},
+									"LoadDB": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/02_DF_SortDemo')]"
 			]
 		},
 		{
@@ -345,6 +394,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
@@ -425,6 +477,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
 			},
@@ -504,6 +559,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
 			},
@@ -577,6 +635,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T14:28:29Z"
 			},
@@ -648,6 +709,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T14:28:30Z"
@@ -730,6 +794,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T16:53:40Z"
@@ -814,6 +881,9 @@
 						"type": "Integer",
 						"defaultValue": 0
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T03:38:23Z"
@@ -908,6 +978,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T07:25:09Z"
 			},
@@ -960,6 +1033,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T09:38:28Z"
@@ -1039,6 +1115,9 @@
 					"y": {
 						"type": "String"
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T11:42:40Z"
@@ -1203,6 +1282,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T17:00:40Z"
 			},
@@ -1278,6 +1360,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T17:40:21Z"
@@ -1358,6 +1443,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T02:44:39Z"
@@ -1460,6 +1548,9 @@
 						"type": "Array"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:56:47Z"
 			},
@@ -1525,6 +1616,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T05:11:44Z"
@@ -1662,6 +1756,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T06:24:32Z"
 			},
@@ -1712,6 +1809,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T07:27:17Z"
@@ -1792,6 +1892,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T09:56:17Z"
 			},
@@ -1829,6 +1932,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T10:18:22Z"
@@ -1872,6 +1978,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T12:21:02Z"
@@ -1920,6 +2029,9 @@
 							8
 						]
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T12:46:54Z"
@@ -1991,6 +2103,9 @@
 					"Result2": {
 						"type": "String"
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T13:14:03Z"
@@ -2084,6 +2199,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T14:14:11Z"
 			},
@@ -2125,6 +2243,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T15:47:17Z"
 			},
@@ -2156,6 +2277,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T16:31:10Z"
@@ -2192,6 +2316,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T12:19:05Z"
@@ -2237,6 +2364,9 @@
 					"y": {
 						"type": "Integer"
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T12:19:05Z"
@@ -2372,6 +2502,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T13:20:57Z"
@@ -2618,6 +2751,9 @@
 						"type": "Integer"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T18:30:39Z"
 			},
@@ -2686,6 +2822,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T07:52:13Z"
@@ -2782,6 +2921,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T09:28:40Z"
@@ -2887,6 +3029,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T09:28:41Z"
@@ -3063,6 +3208,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T10:12:39Z"
 			},
@@ -3143,6 +3291,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T14:59:23Z"
@@ -3302,6 +3453,9 @@
 					"Country": {
 						"type": "String"
 					}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T16:49:49Z"
@@ -3718,6 +3872,27 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_DT_DB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "tbl_Sort_Orders"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureSQL')]"
 			]
 		},
 		{
@@ -4619,6 +4794,72 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
 				"[concat(variables('factoryId'), '/datasets/DS_DT_SELECT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DB",
+								"type": "DatasetReference"
+							},
+							"name": "LoadDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "sortbasedONCountry"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV sort(asc(Country, true),",
+						"     desc(SalesAmount, true),",
+						"     partitionBy('hash', 1)) ~> sortbasedONCountry",
+						"sortbasedONCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> LoadDB"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
+				"[concat(variables('factoryId'), '/datasets/DS_DT_DB')]"
 			]
 		},
 		{

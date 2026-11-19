@@ -13,6 +13,57 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/18PL_DeleteActivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete File or Folders",
+						"type": "Delete",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DS_Delete",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "LS_DELETE_LOGS",
+									"type": "LinkedServiceReference"
+								},
+								"path": "berrycontainer"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-11-15T07:27:17Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/19PL_CopyDataUsingSP')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -83,6 +134,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T09:56:17Z"
 			},
@@ -124,6 +178,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T12:21:02Z"
 			},
@@ -153,6 +210,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T16:31:10Z"
@@ -288,6 +348,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T13:20:57Z"
@@ -531,6 +594,9 @@
 						"type": "Integer"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-16T18:30:39Z"
 			},
@@ -595,6 +661,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T07:52:13Z"
@@ -688,6 +757,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T09:28:40Z"
@@ -790,6 +862,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T09:28:41Z"
@@ -963,6 +1038,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T10:12:39Z"
 			},
@@ -1040,6 +1118,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T14:59:23Z"
@@ -1197,6 +1278,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T16:49:49Z"
 			},
@@ -1267,6 +1351,69 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> SinDB"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DB",
+								"type": "DatasetReference"
+							},
+							"name": "LoadDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "sortbasedONCountry"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV sort(asc(Country, true),",
+						"     desc(SalesAmount, true),",
+						"     partitionBy('hash', 1)) ~> sortbasedONCountry",
+						"sortbasedONCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> LoadDB"
 					]
 				}
 			},
@@ -1421,6 +1568,52 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/dataflowIntro')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02DPL_Demo_Sort_Transformation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DataFlowSort",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "02_DF_SortDemo",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ReadCSV": {},
+									"LoadDB": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/02_DF_SortDemo')]"
 			]
 		}
 	]

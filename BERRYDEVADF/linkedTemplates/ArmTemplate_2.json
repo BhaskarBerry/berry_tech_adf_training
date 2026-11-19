@@ -13,6 +13,22 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_SQLDB')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AzureSQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_SQLDB_OP')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -514,6 +530,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-17T16:49:49Z"
 			},
@@ -590,6 +609,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
@@ -668,6 +690,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
 			},
@@ -745,6 +770,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T03:03:13Z"
 			},
@@ -816,6 +844,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T14:28:29Z"
 			},
@@ -884,6 +915,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T14:28:30Z"
@@ -963,6 +997,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-13T16:53:40Z"
@@ -1057,6 +1094,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T07:25:09Z"
 			},
@@ -1106,6 +1146,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T09:38:28Z"
@@ -1270,6 +1313,9 @@
 						"type": "String"
 					}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T17:00:40Z"
 			},
@@ -1343,6 +1389,9 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "CopyDataActivity"
 				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-14T17:40:21Z"
@@ -1421,6 +1470,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T02:44:39Z"
 			},
@@ -1487,10 +1539,14 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T05:11:44Z"
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQLDB')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQLDB_OP')]"
 			]
 		},
@@ -1622,60 +1678,15 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "CopyDataActivity"
+				},
 				"annotations": [],
 				"lastPublishTime": "2026-11-15T06:24:32Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SQL_DB')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/18PL_DeleteActivity')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Delete File or Folders",
-						"type": "Delete",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "DS_Delete",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"logStorageSettings": {
-								"linkedServiceName": {
-									"referenceName": "LS_DELETE_LOGS",
-									"type": "LinkedServiceReference"
-								},
-								"path": "berrycontainer"
-							},
-							"enableLogging": true,
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2026-11-15T07:27:17Z"
-			},
-			"dependsOn": []
 		}
 	]
 }
