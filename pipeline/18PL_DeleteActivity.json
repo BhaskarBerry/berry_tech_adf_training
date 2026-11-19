@@ -35,6 +35,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "CopyDataActivity"
+		},
 		"annotations": [],
 		"lastPublishTime": "2026-11-15T07:27:17Z"
 	},
