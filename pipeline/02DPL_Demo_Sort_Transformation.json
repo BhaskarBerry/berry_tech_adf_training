@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "02_DF_SortDemo",
+						"referenceName": "03_DF_SortDemo",
 						"type": "DataFlowReference"
 					},
 					"compute": {

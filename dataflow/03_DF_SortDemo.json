@@ -1,5 +1,5 @@
 {
-	"name": "02_DF_SortDemo",
+	"name": "03_DF_SortDemo",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
