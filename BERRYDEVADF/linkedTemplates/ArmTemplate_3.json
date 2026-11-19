@@ -1514,12 +1514,12 @@
 								"referenceName": "DS_DT_DB",
 								"type": "DatasetReference"
 							},
-							"name": "LoadDB"
+							"name": "sinkDB"
 						}
 					],
 					"transformations": [
 						{
-							"name": "sortbasedONCountry"
+							"name": "filterBAsedonCountry"
 						}
 					],
 					"scriptLines": [
@@ -1537,10 +1537,8 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> ReadCSV",
-						"ReadCSV sort(asc(Country, true),",
-						"     desc(SalesAmount, true),",
-						"     partitionBy('hash', 1)) ~> sortbasedONCountry",
-						"sortbasedONCountry sink(allowSchemaDrift: true,",
+						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+						"filterBAsedonCountry sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -1549,7 +1547,7 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> LoadDB"
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
 					]
 				}
 			},
@@ -1606,6 +1604,67 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> OrdersDB"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DB",
+								"type": "DatasetReference"
+							},
+							"name": "sinkDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filterBAsedonCountry"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+						"filterBAsedonCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
 					]
 				}
 			},
@@ -1731,7 +1790,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"ReadCSV": {},
-									"LoadDB": {}
+									"sinkDB": {}
 								}
 							},
 							"staging": {},

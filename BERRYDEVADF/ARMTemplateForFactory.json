@@ -302,7 +302,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"ReadCSV": {},
-									"LoadDB": {}
+									"sinkDB": {}
 								}
 							},
 							"staging": {},
@@ -403,6 +403,52 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_2026')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/03DPL_Demo_Filter_Transformation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "DataFlowSort",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "02_DF_SortDemo",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"ReadCSV": {},
+									"sinkDB": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/02_DF_SortDemo')]"
 			]
 		},
 		{
@@ -3891,7 +3937,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "tbl_Sort_Orders"
+					"table": "tbl_FilterDemo"
 				}
 			},
 			"dependsOn": [
@@ -4845,12 +4891,12 @@
 								"referenceName": "DS_DT_DB",
 								"type": "DatasetReference"
 							},
-							"name": "LoadDB"
+							"name": "sinkDB"
 						}
 					],
 					"transformations": [
 						{
-							"name": "sortbasedONCountry"
+							"name": "filterBAsedonCountry"
 						}
 					],
 					"scriptLines": [
@@ -4868,10 +4914,8 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> ReadCSV",
-						"ReadCSV sort(asc(Country, true),",
-						"     desc(SalesAmount, true),",
-						"     partitionBy('hash', 1)) ~> sortbasedONCountry",
-						"sortbasedONCountry sink(allowSchemaDrift: true,",
+						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+						"filterBAsedonCountry sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -4880,7 +4924,7 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> LoadDB"
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
 					]
 				}
 			},
@@ -4946,6 +4990,70 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
 				"[concat(variables('factoryId'), '/datasets/DS_ASD_Orders')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/02_DF_SortDemo_copy1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DS_CSV_Input",
+								"type": "DatasetReference"
+							},
+							"name": "ReadCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DS_DT_DB",
+								"type": "DatasetReference"
+							},
+							"name": "sinkDB"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filterBAsedonCountry"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          OrderDate as date,",
+						"          ProductKey as short,",
+						"          Country as string,",
+						"          EnglishProductName as string,",
+						"          SalesAmount as double,",
+						"          UnitPrice as double,",
+						"          OrderQuantity as boolean,",
+						"          TaxAmt as double,",
+						"          TotalProductCost as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> ReadCSV",
+						"ReadCSV filter(Country=='India' && SalesAmount > 2000) ~> filterBAsedonCountry",
+						"filterBAsedonCountry sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sinkDB"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_CSV_Input')]",
+				"[concat(variables('factoryId'), '/datasets/DS_DT_DB')]"
 			]
 		}
 	]
