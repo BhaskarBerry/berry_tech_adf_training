@@ -1,0 +1,249 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "BERRYDEVADF"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"DS_ADLS_2026_CSV_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DS_ADLS_2026_CSV'"
+		},
+		"DS_ADLS_2026_OUTPUT_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DS_ADLS_2026_OUTPUT'"
+		},
+		"DS_CSV_OUTPUT_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DS_CSV_OUTPUT'"
+		},
+		"DS_Orders_ASDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'DS_Orders_ASDB'"
+		},
+		"LS_ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLS'"
+		},
+		"LS_ADLS_COPY_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_ADLS_COPY'"
+		},
+		"LS_AzureSQL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_AzureSQL'"
+		},
+		"LS_DELETE_LOGS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_DELETE_LOGS'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"DS_ADLS_2026_CSV_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"DS_ADLS_2026_OUTPUT_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"DS_CSV_OUTPUT_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "berrymysqldb.database.windows.net"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "berrysqlserverdb"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladmin"
+		},
+		"LS_ADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"LS_ADLS_COPY_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"LS_AzureSQL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "berrymysqldb.database.windows.net"
+		},
+		"LS_AzureSQL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "berrysqlserverdb"
+		},
+		"LS_AzureSQL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladmin"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "BERRYDEVADF_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"DS_ADLS_2026_CSV_accountKey": {
+						"value": "[parameters('DS_ADLS_2026_CSV_accountKey')]"
+					},
+					"DS_ADLS_2026_OUTPUT_accountKey": {
+						"value": "[parameters('DS_ADLS_2026_OUTPUT_accountKey')]"
+					},
+					"DS_CSV_OUTPUT_accountKey": {
+						"value": "[parameters('DS_CSV_OUTPUT_accountKey')]"
+					},
+					"DS_Orders_ASDB_password": {
+						"value": "[parameters('DS_Orders_ASDB_password')]"
+					},
+					"LS_ADLS_accountKey": {
+						"value": "[parameters('LS_ADLS_accountKey')]"
+					},
+					"LS_ADLS_COPY_accountKey": {
+						"value": "[parameters('LS_ADLS_COPY_accountKey')]"
+					},
+					"LS_AzureSQL_password": {
+						"value": "[parameters('LS_AzureSQL_password')]"
+					},
+					"LS_DELETE_LOGS_connectionString": {
+						"value": "[parameters('LS_DELETE_LOGS_connectionString')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"DS_ADLS_2026_CSV_properties_typeProperties_url": {
+						"value": "[parameters('DS_ADLS_2026_CSV_properties_typeProperties_url')]"
+					},
+					"DS_ADLS_2026_OUTPUT_properties_typeProperties_url": {
+						"value": "[parameters('DS_ADLS_2026_OUTPUT_properties_typeProperties_url')]"
+					},
+					"DS_CSV_OUTPUT_properties_typeProperties_url": {
+						"value": "[parameters('DS_CSV_OUTPUT_properties_typeProperties_url')]"
+					},
+					"DS_Orders_ASDB_properties_typeProperties_server": {
+						"value": "[parameters('DS_Orders_ASDB_properties_typeProperties_server')]"
+					},
+					"DS_Orders_ASDB_properties_typeProperties_database": {
+						"value": "[parameters('DS_Orders_ASDB_properties_typeProperties_database')]"
+					},
+					"DS_Orders_ASDB_properties_typeProperties_userName": {
+						"value": "[parameters('DS_Orders_ASDB_properties_typeProperties_userName')]"
+					},
+					"LS_ADLS_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLS_properties_typeProperties_url')]"
+					},
+					"LS_ADLS_COPY_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLS_COPY_properties_typeProperties_url')]"
+					},
+					"LS_AzureSQL_properties_typeProperties_server": {
+						"value": "[parameters('LS_AzureSQL_properties_typeProperties_server')]"
+					},
+					"LS_AzureSQL_properties_typeProperties_database": {
+						"value": "[parameters('LS_AzureSQL_properties_typeProperties_database')]"
+					},
+					"LS_AzureSQL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_AzureSQL_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "BERRYDEVADF_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'BERRYDEVADF_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "BERRYDEVADF_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'BERRYDEVADF_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "BERRYDEVADF_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'BERRYDEVADF_ArmTemplate_2')]"
+			]
+		}
+	]
+}

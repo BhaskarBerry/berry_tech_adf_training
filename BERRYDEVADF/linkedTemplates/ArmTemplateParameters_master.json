@@ -1,0 +1,78 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "BERRYDEVADF"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"DS_ADLS_2026_CSV_accountKey": {
+			"value": ""
+		},
+		"DS_ADLS_2026_OUTPUT_accountKey": {
+			"value": ""
+		},
+		"DS_CSV_OUTPUT_accountKey": {
+			"value": ""
+		},
+		"DS_Orders_ASDB_password": {
+			"value": ""
+		},
+		"LS_ADLS_accountKey": {
+			"value": ""
+		},
+		"LS_ADLS_COPY_accountKey": {
+			"value": ""
+		},
+		"LS_AzureSQL_password": {
+			"value": ""
+		},
+		"LS_DELETE_LOGS_connectionString": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"DS_ADLS_2026_CSV_properties_typeProperties_url": {
+			"value": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"DS_ADLS_2026_OUTPUT_properties_typeProperties_url": {
+			"value": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"DS_CSV_OUTPUT_properties_typeProperties_url": {
+			"value": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_server": {
+			"value": "berrymysqldb.database.windows.net"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_database": {
+			"value": "berrysqlserverdb"
+		},
+		"DS_Orders_ASDB_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		},
+		"LS_ADLS_properties_typeProperties_url": {
+			"value": "https://saberrytech.dfs.core.windows.net/"
+		},
+		"LS_ADLS_COPY_properties_typeProperties_url": {
+			"value": "https://saberrydev.dfs.core.windows.net/"
+		},
+		"LS_AzureSQL_properties_typeProperties_server": {
+			"value": "berrymysqldb.database.windows.net"
+		},
+		"LS_AzureSQL_properties_typeProperties_database": {
+			"value": "berrysqlserverdb"
+		},
+		"LS_AzureSQL_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
